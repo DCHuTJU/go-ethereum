@@ -445,6 +445,8 @@ func (evm *EVM) create(caller common.Address, code []byte, gas uint64, value *ui
 
 	// We add this to the access list _before_ taking a snapshot. Even if the
 	// creation fails, the access-list change should not be rolled back.
+	// 需要将合约地址添加到访问列表中
+	// 即使创建失败，访问列表的更改也不应回滚
 	if evm.chainRules.IsEIP2929 {
 		evm.StateDB.AddAddressToAccessList(address)
 	}

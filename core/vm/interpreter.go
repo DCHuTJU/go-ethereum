@@ -228,36 +228,42 @@ func (in *EVMInterpreter) Run(contract *Contract, input []byte, readOnly bool) (
 	// the execution of one of the operations or until the done flag is set by the
 	// parent context.
 	for {
+		// 调式信息捕获
 		if debug {
+			// 捕获执行前的值用于跟踪
 			// Capture pre-execution values for tracing.
 			logged, pcCopy, gasCopy = false, pc, contract.Gas
 		}
-
+		// EIP4762相关的代码块访问成本计算
 		if in.evm.chainRules.IsEIP4762 && !contract.IsDeployment && !contract.IsSystemCall {
 			// if the PC ends up in a new "chunk" of verkleized code, charge the
 			// associated costs.
+			// 如果PC进入verkleized代码的新"块"，收取相关费用
 			contractAddr := contract.Address()
 			contract.Gas -= in.evm.TxContext.AccessEvents.CodeChunksRangeGas(contractAddr, pc, 1, uint64(len(contract.Code)), false)
 		}
 
 		// Get the operation from the jump table and validate the stack to ensure there are
 		// enough stack items available to perform the operation.
+		// 获取当前操作码和对应的操作
 		op = contract.GetOp(pc)
 		operation := in.table[op]
 		cost = operation.constantGas // For tracing
 		// Validate stack
+		// 验证栈是否有足够的元素
 		if sLen := stack.len(); sLen < operation.minStack {
 			return nil, &ErrStackUnderflow{stackLen: sLen, required: operation.minStack}
 		} else if sLen > operation.maxStack {
 			return nil, &ErrStackOverflow{stackLen: sLen, limit: operation.maxStack}
 		}
 		// for tracing: this gas consumption event is emitted below in the debug section.
+		// 检查并扣除固定的gas成本
 		if contract.Gas < cost {
 			return nil, ErrOutOfGas
 		} else {
 			contract.Gas -= cost
 		}
-
+		// 计算动态内存使用和gas成本
 		// All ops with a dynamic memory usage also has a dynamic gas cost.
 		var memorySize uint64
 		if operation.dynamicGas != nil {
@@ -265,6 +271,7 @@ func (in *EVMInterpreter) Run(contract *Contract, input []byte, readOnly bool) (
 			// the operation
 			// Memory check needs to be done prior to evaluating the dynamic gas portion,
 			// to detect calculation overflows
+			// 计算新的内存大小并扩展内存以适应操作
 			if operation.memorySize != nil {
 				memSize, overflow := operation.memorySize(stack)
 				if overflow {
@@ -293,6 +300,7 @@ func (in *EVMInterpreter) Run(contract *Contract, input []byte, readOnly bool) (
 		}
 
 		// Do tracing before potential memory expansion
+		// 执行跟踪记录
 		if debug {
 			if in.evm.Config.Tracer.OnGasChange != nil {
 				in.evm.Config.Tracer.OnGasChange(gasCopy, gasCopy-cost, tracing.GasChangeCallOpCode)
@@ -302,11 +310,13 @@ func (in *EVMInterpreter) Run(contract *Contract, input []byte, readOnly bool) (
 				logged = true
 			}
 		}
+		// 如果有必要的话，需要调整内存大小
 		if memorySize > 0 {
 			mem.Resize(memorySize)
 		}
 
 		// execute the operation
+		// 执行操作码
 		res, err = operation.execute(&pc, in, callContext)
 		if err != nil {
 			break

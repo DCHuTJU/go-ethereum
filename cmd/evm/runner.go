@@ -138,6 +138,8 @@ func readGenesis(genesisPath string) *core.Genesis {
 	}
 	defer file.Close()
 
+	// 根据 genesis.json 文件内容创建一个 Genesis 对象
+	// 需要满足 core.GenesisAccount 结构体的定义
 	genesis := new(core.Genesis)
 	if err := json.NewDecoder(file).Decode(genesis); err != nil {
 		utils.Fatalf("invalid genesis file: %v", err)
@@ -153,9 +155,11 @@ type execStats struct {
 }
 
 func timedExec(bench bool, execFunc func() ([]byte, uint64, error)) ([]byte, execStats, error) {
+	// 多轮测试，取平均值
 	if bench {
 		testing.Init()
 		// Do one warm-up run
+		// execFunc() 用于执行具体的方法
 		output, gasUsed, err := execFunc()
 		result := testing.Benchmark(func(b *testing.B) {
 			for i := 0; i < b.N; i++ {
@@ -181,6 +185,7 @@ func timedExec(bench bool, execFunc func() ([]byte, uint64, error)) ([]byte, exe
 		}
 		return output, stats, err
 	}
+	// 单轮测试
 	var memStatsBefore, memStatsAfter goruntime.MemStats
 	goruntime.ReadMemStats(&memStatsBefore)
 	t0 := time.Now()
