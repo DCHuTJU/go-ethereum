@@ -204,7 +204,9 @@ var app = flags.NewApp("the evm command line interface")
 func init() {
 	app.Flags = debug.Flags
 	app.Commands = []*cli.Command{
+		// Done
 		runCommand,
+		// 
 		blockTestCommand,
 		stateTestCommand,
 		stateTransitionCommand,

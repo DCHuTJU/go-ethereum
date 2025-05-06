@@ -201,6 +201,7 @@ func (evm *EVM) Call(caller common.Address, addr common.Address, input []byte, g
 	if !value.IsZero() && !evm.Context.CanTransfer(evm.StateDB, caller, value) {
 		return nil, gas, ErrInsufficientBalance
 	}
+	// 创建快照，保证是可以回滚的
 	snapshot := evm.StateDB.Snapshot()
 	p, isPrecompile := evm.precompile(addr)
 
@@ -221,6 +222,7 @@ func (evm *EVM) Call(caller common.Address, addr common.Address, input []byte, g
 		}
 		evm.StateDB.CreateAccount(addr)
 	}
+	// 向对应的 addr 转账
 	evm.Context.Transfer(evm.StateDB, caller, addr, value)
 
 	if isPrecompile {
