@@ -204,10 +204,11 @@ var app = flags.NewApp("the evm command line interface")
 func init() {
 	app.Flags = debug.Flags
 	app.Commands = []*cli.Command{
-		// Done
+		// Done，可以用于 create 或者 call 智能合约
 		runCommand,
-		// 
+		// 回放整个block，DONE
 		blockTestCommand,
+		// 专门用于测试 state 的命令，DONE
 		stateTestCommand,
 		stateTransitionCommand,
 		transactionCommand,
