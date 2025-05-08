@@ -99,6 +99,7 @@ func Transition(ctx *cli.Context) error {
 		inputData = &input{}
 	)
 	// Figure out the prestate alloc
+	// 准备 prestate
 	if allocStr == stdinSelector || envStr == stdinSelector || txStr == stdinSelector {
 		decoder := json.NewDecoder(os.Stdin)
 		if err := decoder.Decode(inputData); err != nil {
@@ -113,6 +114,7 @@ func Transition(ctx *cli.Context) error {
 	prestate.Pre = inputData.Alloc
 
 	// Set the block environment
+	// 配置环境，指定当前的 transaction 会在哪一种链环境下执行
 	if envStr != stdinSelector {
 		var env stEnv
 		if err := readFile(envStr, "env", &env); err != nil {
@@ -135,6 +137,7 @@ func Transition(ctx *cli.Context) error {
 	// Set the chain id
 	chainConfig.ChainID = big.NewInt(ctx.Int64(ChainIDFlag.Name))
 
+	// 加载交易
 	if txIt, err = loadTransactions(txStr, inputData, chainConfig); err != nil {
 		return err
 	}

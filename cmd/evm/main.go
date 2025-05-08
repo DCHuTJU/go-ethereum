@@ -210,6 +210,8 @@ func init() {
 		blockTestCommand,
 		// 专门用于测试 state 的命令，DONE
 		stateTestCommand,
+
+		// t8n 命令
 		stateTransitionCommand,
 		transactionCommand,
 		blockBuilderCommand,

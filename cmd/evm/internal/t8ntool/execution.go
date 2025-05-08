@@ -175,6 +175,7 @@ func (pre *Prestate) Apply(vmConfig vm.Config, chainConfig *params.ChainConfig, 
 		vmContext.Random = &rnd
 	}
 	// Calculate the BlobBaseFee
+	// 与 eip4884 相关的 blob 逻辑
 	var excessBlobGas uint64
 	if pre.Env.ExcessBlobGas != nil {
 		excessBlobGas = *pre.Env.ExcessBlobGas
@@ -204,6 +205,7 @@ func (pre *Prestate) Apply(vmConfig vm.Config, chainConfig *params.ChainConfig, 
 	}
 	// If DAO is supported/enabled, we need to handle it here. In geth 'proper', it's
 	// done in StateProcessor.Process(block, ...), right before transactions are applied.
+	// 检查是否存在DAO硬分叉
 	if chainConfig.DAOForkSupport &&
 		chainConfig.DAOForkBlock != nil &&
 		chainConfig.DAOForkBlock.Cmp(new(big.Int).SetUint64(pre.Env.Number)) == 0 {
