@@ -213,9 +213,13 @@ func init() {
 
 		// t8n 命令
 		stateTransitionCommand,
+		// 验证交易的命令 t9n
 		transactionCommand,
+		// t11r 命令
 		blockBuilderCommand,
+		// EOF 验证解析命令
 		eofParseCommand,
+		// EOF 展示
 		eofDumpCommand,
 	}
 	app.Before = func(ctx *cli.Context) error {
