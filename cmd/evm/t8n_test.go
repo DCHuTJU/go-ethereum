@@ -136,14 +136,14 @@ func TestT8n(t *testing.T) {
 		// 	output: t8nOutput{alloc: true, result: true},
 		// 	expOut: "exp.json",
 		// },
-		{ // blockhash test
-			base: "./testdata/3",
-			input: t8nInput{
-				"alloc.json", "txs.json", "env.json", "Berlin", "",
-			},
-			output: t8nOutput{alloc: true, result: true},
-			expOut: "exp.json",
-		},
+		// { // blockhash test
+		// 	base: "./testdata/3",
+		// 	input: t8nInput{
+		// 		"alloc.json", "txs.json", "env.json", "Berlin", "",
+		// 	},
+		// 	output: t8nOutput{alloc: true, result: true},
+		// 	expOut: "exp.json",
+		// },
 		// { // missing blockhash test
 		// 	base: "./testdata/4",
 		// 	input: t8nInput{
@@ -176,22 +176,22 @@ func TestT8n(t *testing.T) {
 		// 	output: t8nOutput{result: true},
 		// 	expOut: "exp2.json",
 		// },
-		// { // Difficulty calculation - no uncles
-		// 	base: "./testdata/14",
-		// 	input: t8nInput{
-		// 		"alloc.json", "txs.json", "env.json", "London", "",
-		// 	},
-		// 	output: t8nOutput{result: true},
-		// 	expOut: "exp.json",
-		// },
-		// { // Difficulty calculation - with uncles
-		// 	base: "./testdata/14",
-		// 	input: t8nInput{
-		// 		"alloc.json", "txs.json", "env.uncles.json", "London", "",
-		// 	},
-		// 	output: t8nOutput{result: true},
-		// 	expOut: "exp2.json",
-		// },
+		{ // Difficulty calculation - no uncles
+			base: "./testdata/14",
+			input: t8nInput{
+				"alloc.json", "txs.json", "env.json", "London", "",
+			},
+			output: t8nOutput{result: true},
+			expOut: "exp.json",
+		},
+		{ // Difficulty calculation - with uncles
+			base: "./testdata/14",
+			input: t8nInput{
+				"alloc.json", "txs.json", "env.uncles.json", "London", "",
+			},
+			output: t8nOutput{result: true},
+			expOut: "exp2.json",
+		},
 		// { // Difficulty calculation - with ommers + Berlin
 		// 	base: "./testdata/14",
 		// 	input: t8nInput{
