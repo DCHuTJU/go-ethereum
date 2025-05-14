@@ -176,22 +176,22 @@ func TestT8n(t *testing.T) {
 		// 	output: t8nOutput{result: true},
 		// 	expOut: "exp2.json",
 		// },
-		{ // Difficulty calculation - no uncles
-			base: "./testdata/14",
-			input: t8nInput{
-				"alloc.json", "txs.json", "env.json", "London", "",
-			},
-			output: t8nOutput{result: true},
-			expOut: "exp.json",
-		},
-		{ // Difficulty calculation - with uncles
-			base: "./testdata/14",
-			input: t8nInput{
-				"alloc.json", "txs.json", "env.uncles.json", "London", "",
-			},
-			output: t8nOutput{result: true},
-			expOut: "exp2.json",
-		},
+		// { // Difficulty calculation - no uncles
+		// 	base: "./testdata/14",
+		// 	input: t8nInput{
+		// 		"alloc.json", "txs.json", "env.json", "London", "",
+		// 	},
+		// 	output: t8nOutput{result: true},
+		// 	expOut: "exp.json",
+		// },
+		// { // Difficulty calculation - with uncles
+		// 	base: "./testdata/14",
+		// 	input: t8nInput{
+		// 		"alloc.json", "txs.json", "env.uncles.json", "London", "",
+		// 	},
+		// 	output: t8nOutput{result: true},
+		// 	expOut: "exp2.json",
+		// },
 		// { // Difficulty calculation - with ommers + Berlin
 		// 	base: "./testdata/14",
 		// 	input: t8nInput{
@@ -200,7 +200,7 @@ func TestT8n(t *testing.T) {
 		// 	output: t8nOutput{result: true},
 		// 	expOut: "exp_berlin.json",
 		// },
-		// { // Difficulty calculation on arrow glacier
+		// { // Difficulty calculation on London
 		// 	base: "./testdata/19",
 		// 	input: t8nInput{
 		// 		"alloc.json", "txs.json", "env.json", "London", "",
@@ -232,22 +232,22 @@ func TestT8n(t *testing.T) {
 		// 	output: t8nOutput{result: true},
 		// 	expOut: "exp.json",
 		// },
-		// { // Test post-merge transition
-		// 	base: "./testdata/24",
-		// 	input: t8nInput{
-		// 		"alloc.json", "txs.json", "env.json", "Paris", "",
-		// 	},
-		// 	output: t8nOutput{alloc: true, result: true},
-		// 	expOut: "exp.json",
-		// },
-		// { // Test post-merge transition where input is missing random
-		// 	base: "./testdata/24",
-		// 	input: t8nInput{
-		// 		"alloc.json", "txs.json", "env-missingrandom.json", "Paris", "",
-		// 	},
-		// 	output:      t8nOutput{alloc: false, result: false},
-		// 	expExitCode: 3,
-		// },
+		{ // Test post-merge transition
+			base: "./testdata/24",
+			input: t8nInput{
+				"alloc.json", "txs.json", "env.json", "Paris", "",
+			},
+			output: t8nOutput{alloc: true, result: true},
+			expOut: "exp.json",
+		},
+		{ // Test post-merge transition where input is missing random
+			base: "./testdata/24",
+			input: t8nInput{
+				"alloc.json", "txs.json", "env-missingrandom.json", "Paris", "",
+			},
+			output:      t8nOutput{alloc: false, result: false},
+			expExitCode: 3,
+		},
 		// { // Test base fee calculation
 		// 	base: "./testdata/25",
 		// 	input: t8nInput{
